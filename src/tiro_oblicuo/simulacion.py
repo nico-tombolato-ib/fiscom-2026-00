@@ -24,9 +24,18 @@ def integrar_euler(
     Devuelve un arreglo de tiempos y otro de estados. Ambos incluyen la
     condición inicial, por lo que tienen ``pasos + 1`` elementos.
     """
+    tiempos = np.linspace(0.0, dt * pasos, pasos + 1)
+    
+    # Reservamos espacio para la matriz de estados de dimensión (pasos + 1, 4)
+    estados = np.zeros((pasos + 1, 4), dtype=float)
+    estados[0] = estado_inicial
 
-    raise NotImplementedError("completar el método de Euler")
+    # Bucle de integración por Euler explícito
+    for i in range(pasos):
+        d_estado = derivada(estados[i], gravedad=gravedad)
+        estados[i + 1] = estados[i] + d_estado * dt
 
+    return tiempos, estados
 
 def solucion_exacta(
     tiempos: np.ndarray,
